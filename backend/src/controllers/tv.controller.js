@@ -1,29 +1,29 @@
 const fetchFromTMDB = require("../services/tmdb.service");
 
-const getTrendingMovie = async (req, res) => {
+const getTrendingTv = async (req, res) => {
   try {
     const data = await fetchFromTMDB(
-      "https://api.themoviedb.org/3/trending/movie/day?language=en-US"
+      "https://api.themoviedb.org/3/trending/tv/day?language=en-US"
     );
-    const randomMovie =
+    const randomTv =
       data.results[Math.floor(Math.random() * data.results.length)];
     return res.status(200).json({
       EC: 1,
-      content: randomMovie,
+      content: randomTv,
     });
   } catch (error) {
-    return res.status(200).json({
+    return res.status(500).json({
       EC: 0,
-      EM: error.message || "Internal server error",
+      EM: error.message,
     });
   }
 };
 
-const getMovieTrailer = async (req, res) => {
+const getTvTrailer = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`
+      `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`
     );
     return res.status(200).json({
       EC: 1,
@@ -37,12 +37,11 @@ const getMovieTrailer = async (req, res) => {
   }
 };
 
-const getDetailMovie = async (req, res) => {
+const getTvDetail = async (req, res) => {
   const { id } = req.params;
-
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${id}?language=en-US`
+      `https://api.themoviedb.org/3/tv/${id}?language=en-US`
     );
     return res.status(200).json({
       EC: 1,
@@ -56,11 +55,11 @@ const getDetailMovie = async (req, res) => {
   }
 };
 
-const getSimilarMovie = async (req, res) => {
+const getSimilarTv = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`
+      `https://api.themoviedb.org/3/tv/${id}/similar?language=en-US&page=1`
     );
     return res.status(200).json({
       EC: 1,
@@ -74,7 +73,7 @@ const getSimilarMovie = async (req, res) => {
   }
 };
 
-const getMovieByCategory = async (req, res) => {
+const getTvByCategory = async (req, res) => {
   const { category } = req.params;
   try {
     const data = await fetchFromTMDB(
@@ -93,9 +92,9 @@ const getMovieByCategory = async (req, res) => {
 };
 
 module.exports = {
-  getTrendingMovie,
-  getMovieTrailer,
-  getDetailMovie,
-  getSimilarMovie,
-  getMovieByCategory,
+  getTrendingTv,
+  getTvTrailer,
+  getTvDetail,
+  getSimilarTv,
+  getTvByCategory,
 };

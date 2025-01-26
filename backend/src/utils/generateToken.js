@@ -3,7 +3,7 @@ const ENV_VAR = require("../config/envVars");
 
 const generateToken = (user, res) => {
   const token = jwt.sign(
-    { _id: user._id, image: user.image },
+    { id: user._id, image: user.image },
     ENV_VAR.JWT_SECRET,
     { expiresIn: "2d" }
   );
