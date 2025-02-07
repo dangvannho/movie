@@ -1,18 +1,27 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import routeConfig from "~/config/routeConfig";
 import logo from "~/assets/images/netflix-logo.png";
+import login from "~/services/auth/login";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log({
-      email,
-      password,
-    });
+
+    const res = await login(email, password);
+    if (res.EC === 1) {
+      toast.success(res.EM);
+      navigate(routeConfig.home);
+    } else {
+      toast.error(res.EM);
+    }
   };
 
   return (
@@ -26,7 +35,7 @@ const LoginPage = () => {
       <div className="flex justify-center items-center mt-20">
         <div className="max-w-sm tablet:max-w-md w-full p-8 bg-black/60 rounded-lg shadow-md">
           <h1 className="text-2xl text-white font-bold mb-4 text-center">
-            Sign Up
+            Sign In
           </h1>
           <form className="mt-4">
             {/* email */}
@@ -69,7 +78,7 @@ const LoginPage = () => {
               className="w-full mt-4 py-2 text-center bg-red-600 text-white font-semibold rounded-md hover:bg-red-700"
               onClick={handleLogin}
             >
-              Login
+              Sign In
             </button>
           </form>
 

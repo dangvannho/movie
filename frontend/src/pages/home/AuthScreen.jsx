@@ -1,5 +1,10 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
-import Header from "~/components/Header";
+import { Link } from "react-router-dom";
+
+import routeConfig from "~/config/routeConfig";
+import logo from "~/assets/images/netflix-logo.png";
 import tvImage from "~/assets/images/tv.png";
 import strangerImageLg from "~/assets/images/stranger-things-lg.png";
 import strangerImageSm from "~/assets/images/stranger-things-sm.png";
@@ -8,9 +13,31 @@ import deviceImage from "~/assets/images/device-pile.png";
 import kidImage from "~/assets/images/kids.png";
 
 const AuthScreen = ({ user }) => {
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmitEmail = (e) => {
+    e.preventDefault();
+    navigate(`${routeConfig.signUp}?email=${email}`);
+  };
+
   return (
     <div className="hero-bg">
-      <Header user={user} />
+      <header className="max-w-6xl mx-auto p-4 flex justify-between items-center">
+        <Link to={routeConfig.home}>
+          <img className="w-20 tablet:w-40 laptop:w-52" src={logo} alt="" />
+        </Link>
+        {user ? (
+          <p>Đã đăng nhập</p>
+        ) : (
+          <Link
+            to={routeConfig.login}
+            className="bg-red-600 text-white py-1 px-2 rounded cursor-pointer"
+          >
+            Sign in
+          </Link>
+        )}
+      </header>
 
       {/* Hero section */}
       <div className="flex flex-col justify-center items-center py-40">
@@ -29,8 +56,13 @@ const AuthScreen = ({ user }) => {
             type="text"
             className="w-[300px] py-2 pl-2 pr-5 border border-gray-700 bg-black text-gray-400 rounded outline-none"
             placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <button className="flex justify-center items-center min-w-[120px] px-4 py-2 bg-red-600 text-lg text-white rounded ">
+          <button
+            className="flex justify-center items-center min-w-[120px] px-4 py-2 bg-red-600 text-lg text-white rounded "
+            onClick={handleSubmitEmail}
+          >
             Get Started
             <IoIosArrowForward size={28} />
           </button>

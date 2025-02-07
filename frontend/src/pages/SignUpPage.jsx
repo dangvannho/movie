@@ -1,20 +1,30 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import routeConfig from "~/config/routeConfig";
 import logo from "~/assets/images/netflix-logo.png";
+import register from "~/services/auth/register";
 
 const SignUpPage = () => {
-  const [email, setEmail] = useState("");
+  const { searchParams } = new URL(document.location);
+  const emailValue = searchParams.get("email");
+
+  const [email, setEmail] = useState(emailValue || "");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignUp = (e) => {
+  const navigate = useNavigate();
+
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    console.log({
-      username,
-      email,
-      password,
-    });
+    const res = await register(email, password, username);
+    if (res.EC === 1) {
+      toast.success(res.EM);
+      navigate(routeConfig.login);
+    } else {
+      toast.error(res.EM);
+    }
   };
 
   return (
