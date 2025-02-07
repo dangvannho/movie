@@ -77,7 +77,7 @@ const getTvByCategory = async (req, res) => {
   const { category } = req.params;
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`
+      `https://api.themoviedb.org/3/tv/${category}?language=en-US&page=1`
     );
     return res.status(200).json({
       EC: 1,

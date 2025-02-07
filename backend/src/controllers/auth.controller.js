@@ -14,7 +14,7 @@ const register = async (req, res) => {
       });
     }
 
-    const emailRegex = /^[^s@]+@[^s@]+.[^s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({
         EC: 0,
@@ -48,12 +48,14 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // const PROFILE_PICS = [""]
+    const PROFILE_PICS = ["/avatar1.png", "/avatar2.png", "/avatar3.png"];
+    const image = PROFILE_PICS[Math.floor(Math.random() * PROFILE_PICS.length)];
 
     const newUser = new User({
       email,
       password: hashedPassword,
       username,
+      image,
     });
 
     await newUser.save();
@@ -85,6 +87,8 @@ const login = async (req, res) => {
     }
 
     const user = await User.findOne({ email: email });
+    console.log(user);
+
     if (!user) {
       return res.status(400).json({
         EC: 0,
@@ -99,11 +103,13 @@ const login = async (req, res) => {
         EM: "Email or password incorrect",
       });
     }
+    const { password: ignoredPassword, ...infoUser } = user.toObject();
 
     generateToken(user, res);
     return res.status(200).json({
       EC: 1,
       EM: "Login successful",
+      User: infoUser,
     });
   } catch (error) {
     return res.status(500).json({
@@ -129,4 +135,18 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout };
+const authCheck = async (req, res) => {
+  try {
+    res.status(200).json({
+      EC: 1,
+      user: req.user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      EC: 0,
+      EM: error.message,
+    });
+  }
+};
+
+module.exports = { register, login, logout, authCheck };
