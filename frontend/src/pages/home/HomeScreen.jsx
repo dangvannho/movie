@@ -8,6 +8,7 @@ import Navbar from "~/components/Navbar";
 import MovieSlider from "~/components/MovieSlider";
 import imageConfig from "~/config/imgeConfig";
 import categoryConfig from "~/config/categoryConfig";
+import routeConfig from "~/config/routeConfig";
 
 const HomeScreen = () => {
   const { typeTrending, trendingContent } = useContext(TrendingContext);
@@ -45,7 +46,7 @@ const HomeScreen = () => {
 
             <div className="mt-10 flex gap-4">
               <Link
-                to="watch/123"
+                to={routeConfig.watch.replace(":id", trendingContent?.id)}
                 className="btn bg-white hover:bg-white/80 text-black"
               >
                 <FaPlay />
@@ -53,7 +54,7 @@ const HomeScreen = () => {
               </Link>
 
               <Link
-                to="watch/123"
+                to={routeConfig.watch.replace(":id", trendingContent?.id)}
                 className="btn text-white bg-gray-500/70 hover:bg-gray-500"
               >
                 <IoIosInformationCircle />

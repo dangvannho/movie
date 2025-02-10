@@ -3,8 +3,8 @@ import LoginPage from "~/pages/LoginPage";
 import SignUpPage from "~/pages/SignUpPage";
 import WatchPage from "~/pages/WatchPage";
 
-import routeConfig from "~/config/routeConfig";
 import ProtectRoute from "./ProtectRoute";
+import routeConfig from "~/config/routeConfig";
 
 const listRoute = [
   {
@@ -20,7 +20,7 @@ const listRoute = [
     element: <SignUpPage />,
   },
   {
-    path: routeConfig.watching,
+    path: routeConfig.watch,
     element: (
       <ProtectRoute>
         <WatchPage />

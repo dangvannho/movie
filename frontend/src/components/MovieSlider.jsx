@@ -58,7 +58,7 @@ const MovieSlider = ({ category }) => {
           return (
             <div key={index} className="flex-none overflow-hidden rounded-lg">
               <Link
-                to={`${routeConfig.watching.replace(":id", item.id)}`}
+                to={`${routeConfig.watch.replace(":id", item.id)}`}
                 className="block w-[250px] h-[120px] overflow-hidden"
               >
                 <img

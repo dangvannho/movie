@@ -1,5 +1,5 @@
-import { LuLoader } from "react-icons/lu";
 import { useContext, useState, useEffect } from "react";
+import { LuLoader } from "react-icons/lu";
 
 import { AuthContext } from "~/context/authContext";
 import checkAuth from "~/services/auth/checkAuth";
@@ -21,7 +21,6 @@ const HomePage = () => {
     }
     setLoading(false);
   };
-
   if (loading) {
     return (
       <div className="h-screen flex justify-center items-center bg-black">
